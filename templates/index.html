@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="hero mb-4">
+            <p class="lead">Upload an image or video and the app will detect vehicles, read license plates, classify plate & vehicle types, and produce an annotated output plus an Excel report.</p>
+            <p class="text-muted small">Tip: For faster processing, use clear images and short video clips. Processing time depends on file size and server resources.</p>
+        </div>
+
+        <div class="result-section mb-4">
+            <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="file" class="form-label">Choose an image or video</label>
+                    <input class="form-control" type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.mp4,.avi,.mov" required>
+                    <div class="form-text" id="fileHelp">Supported formats: JPG, JPEG, PNG, MP4, AVI, MOV</div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" id="uploadBtn">Upload &amp; Analyze</button>
+                </div>
+            </form>
+
+            <div class="loading" id="loadingIndicator" style="display:none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Processing your file. This may take a few minutes...</p>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h3>How it works</h3>
+            <ol>
+                <li>Upload an image or short video containing vehicles.</li>
+                <li>The system detects vehicles and localizes license plates.</li>
+                <li>Each plate is cropped, enhanced, and passed to OCR to extract text.</li>
+                <li>We classify the vehicle type and plate type, then produce annotated output and an Excel report.</li>
+            </ol>
+
+            <div class="alert alert-info">
+                <h5>Supported Vehicle Types:</h5>
+                <ul>
+                    <li>Cars</li>
+                    <li>Bikes / Motorcycles</li>
+                    <li>Trucks</li>
+                    <li>Buses</li>
+                    <li>Auto Rickshaws</li>
+                </ul>
+
+                <h5>Detected Plate Types:</h5>
+                <ul>
+                    <li>Private Vehicles (commonly white, also red/black in some regions)</li>
+                    <li>Commercial Vehicles (Yellow)</li>
+                    <li>Electric Vehicles (Green)</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <h5>Violation detection</h5>
+                <p>This system also automatically detects several common traffic violations in images and videos. Detected violation types include:</p>
+                <ul>
+                    <li><strong>Helmet violations</strong> — rider on a motorcycle without a helmet.</li>
+                    <li><strong>Triple riding</strong> — three or more riders on a single motorcycle.</li>
+                    <li><strong>Phone usage</strong> — person using a phone while in or near a vehicle.</li>
+                </ul>
+                <p>Violations are overlaid on annotated output frames and recorded in the Excel report with details such as violation type, frame number, bounding boxes, and confidence scores.</p>
+            </div>
+
+            <h5>Quick tips</h5>
+            <ul>
+                <li>Prefer frontal/angled clear views of plates for better OCR accuracy.</li>
+                <li>Avoid heavy motion blur or extreme low-light footage.</li>
+                <li>Crop or trim very long videos; processing is faster on shorter clips.</li>
+            </ul>
+
+            <h5 class="mt-3">Outputs</h5>
+            <ul>
+                <li>Annotated image / video with detections overlaid (available for download after processing).</li>
+                <li>Excel (.xlsx) report with columns such as filename, frame, plate_text, plate_type, vehicle_type, confidence, bounding_box.</li>
+            </ul>
+
+            <div class="alert alert-secondary mt-3"><strong>Privacy:</strong> Uploaded files are processed on the server and removed after a short retention period. Do not upload sensitive personal data.</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Show loading indicator when form is submitted
+    document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('uploadBtn').disabled = true;
+        document.getElementById('loadingIndicator').style.display = 'block';
+    });
+
+    // Show selected file name and size
+    const fileInput = document.getElementById('file');
+    const fileHelp = document.getElementById('fileHelp');
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (!this.files || this.files.length === 0) {
+                fileHelp.textContent = 'Supported formats: JPG, JPEG, PNG, MP4, AVI, MOV';
+                return;
+            }
+            const f = this.files[0];
+            const sizeMB = (f.size / 1024 / 1024).toFixed(1);
+            fileHelp.textContent = `Selected: ${f.name} (${sizeMB} MB) — Supported: JPG, JPEG, PNG, MP4, AVI, MOV`;
+        });
+    }
+</script>
+{% endblock %}

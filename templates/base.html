@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License Plate Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: #f8f9fa;
+        }
+        .header {
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            background-color: #e9ecef;
+            border-radius: 0.3rem;
+            text-align: center;
+        }
+        .plate-card {
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .plate-commercial {
+            border-left: 5px solid #ffc107;
+        }
+        .plate-private {
+            border-left: 5px solid #ffffff;
+        }
+        .plate-electric {
+            border-left: 5px solid #28a745;
+        }
+        /* Generic/other plate style (kept for future categories). No special
+           'government' styling is provided because the system does not
+           explicitly identify government vehicles. */
+        .plate-other {
+            border-left: 5px solid #6c757d;
+        }
+        .result-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        .footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Smart Campus Surveillance System</h1>
+            <p class="lead">Upload an image or video to detect license plates</p>
+        </div>
+        
+        {% block content %}{% endblock %}
+        
+        <div class="footer">
+            <p>&copy; 2025 License Plate Detection System</p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

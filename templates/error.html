@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="result-section">
+            <div class="alert alert-danger">
+                <h4>Error</h4>
+                <p>{{ error }}</p>
+            </div>
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary">Return to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

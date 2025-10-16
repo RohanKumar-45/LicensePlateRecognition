@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="result-section">
+            <h2>Detection Results</h2>
+            <div class="alert alert-success">
+                <h4>Summary</h4>
+                <p>Total vehicles detected: {{ results.total_vehicles }}</p>
+                <p>Total license plates detected: {{ results.total_plates }}</p>
+            </div>
+            
+            <div class="mt-4">
+                <h4>Detected Image</h4>
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='output/' + output_image) }}" alt="Detected License Plates" class="img-fluid rounded shadow">
+                </div>
+            </div>
+            
+            {% if results.visualization %}
+            <div class="mt-4">
+                <h4>Detection Statistics</h4>
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='output/' + results.visualization) }}" 
+                        alt="Detection Statistics" class="img-fluid rounded shadow">
+                </div>
+            </div>
+            {% endif %}
+
+            {% if results.violation_visualization %}
+            <div class="mt-4">
+                <h4>Violations Overview</h4>
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='output/' + results.violation_visualization) }}" 
+                        alt="Violation Comparison" class="img-fluid rounded shadow" style="max-width:480px;">
+                </div>
+                <div class="mt-2 text-center">
+                    <a href="{{ url_for('download_file', filename=results.violation_visualization) }}" class="btn btn-sm btn-info">Download Violation Visualization</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="mt-4">
+                <h4>Download Results</h4>
+                <a href="{{ url_for('download_file', filename=excel_file) }}" class="btn btn-success">Download Excel Report</a>
+                <a href="{{ url_for('download_file', filename=output_image) }}" class="btn btn-primary">Download Processed Image</a>
+                {% if results.visualization %}
+                    <a href="{{ url_for('download_file', filename=results.visualization) }}" class="btn btn-info">Download Visualization</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if results.plates %}
+        <div class="result-section">
+            <h3>Detected License Plates</h3>
+            <div class="row">
+                {% for plate in results.plates %}
+                <div class="col-md-6">
+                    <div class="card plate-card plate-{{ plate['Plate Type']|lower|replace(' ', '-') }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plate['License Plate'] }}</h5>
+                            <p class="card-text">
+                                <strong>Vehicle Type:</strong> {{ plate['Vehicle Type'] }}<br>
+                                <strong>Plate Type:</strong> {{ plate['Plate Type'] }}<br>
+                                <strong>Confidence:</strong> {{ "%.2f"|format(plate['Confidence'] * 100) }}%
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if results.violations and results.violations|length > 0 %}
+        <div class="result-section">
+            <h3>Detected Violations</h3>
+            <div class="alert alert-warning">Total violations detected: {{ results.violations|length }}</div>
+            <div class="row">
+                {% for v in results.violations[:10] %}
+                <div class="col-md-4">
+                    <div class="card mb-2">
+                        {% if (v.thumb is defined) or (v['thumb'] is defined) %}
+                        <img src="{{ url_for('static', filename='output/' + (v.thumb if v.thumb is defined else v['thumb'])) }}" class="card-img-top" alt="violation thumbnail">
+                        {% endif %}
+                        <div class="card-body">
+                            <h6 class="card-title">{{ (v.type if v.type is defined else v['type']).replace('_', ' ')|title }}</h6>
+                            <p class="card-text">
+                                <strong>BBox:</strong> {{ v.bbox if v.bbox is defined else v['bbox'] }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="d-grid gap-2">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-lg">Process Another File</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
