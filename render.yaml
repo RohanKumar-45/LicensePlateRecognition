@@ -2,7 +2,7 @@ services:
   - type: web
     name: license-plate-detection
     env: python
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     buildCommand: |
       echo "Python version:" $(python --version)
       pip install --upgrade pip
@@ -11,5 +11,7 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.6
+      - key: PORT
+        value: 10000
 
     autoDeploy: true
