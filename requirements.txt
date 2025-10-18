@@ -15,7 +15,7 @@ scikit-image==0.21.0
 
 # SORT tracking dependencies
 filterpy==1.4.5
-lap==0.4.0
+lapx==0.5.5
 
 # Deep learning dependencies
 --extra-index-url https://download.pytorch.org/whl/cpu
