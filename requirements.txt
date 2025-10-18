@@ -1,18 +1,29 @@
+# Core build dependencies
 setuptools>=65.5.1
 wheel>=0.38.4
 pip>=23.0.1
+
+# Scientific computing dependencies (ordered for build)
 numpy==1.24.3
+scipy>=1.9.0
 pandas==1.5.3
+
+# Image processing and ML dependencies
 pillow==10.0.1
 opencv-python-headless==4.8.1.78
 scikit-image==0.21.0
+
+# SORT tracking dependencies
 filterpy==1.4.5
 lap==0.4.0
-scipy>=1.9.0
+
+# Deep learning dependencies
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.0.1
 torchvision==0.15.2
 ultralytics==8.0.196
+
+# Web application dependencies
 flask==2.3.3
 requests==2.31.0
 python-Levenshtein==0.21.1
