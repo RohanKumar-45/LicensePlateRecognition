@@ -1,5 +1,5 @@
 # -------------------------
-# Core build tools (DO NOT pin pip/setuptools on cloud)
+# Build tools
 # -------------------------
 setuptools
 wheel
@@ -12,7 +12,7 @@ scipy>=1.9.0
 pandas==1.5.3
 
 # -------------------------
-# Image processing (SERVER SAFE)
+# Image processing (FORCED HEADLESS)
 # -------------------------
 pillow==10.0.1
 opencv-python-headless==4.8.1.78
@@ -25,7 +25,7 @@ filterpy==1.4.5
 lapx==0.5.5
 
 # -------------------------
-# Deep learning (CPU only – cloud safe)
+# Deep learning (CPU only)
 # -------------------------
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.0.1
@@ -33,7 +33,7 @@ torchvision==0.15.2
 ultralytics==8.0.196
 
 # -------------------------
-# Web application
+# Web
 # -------------------------
 flask==2.3.3
 werkzeug==2.3.7
