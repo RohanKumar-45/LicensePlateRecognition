@@ -1,33 +1,44 @@
-# Core build dependencies
-setuptools>=65.5.1
-wheel>=0.38.4
-pip>=23.0.1
+# -------------------------
+# Core build tools (DO NOT pin pip/setuptools on cloud)
+# -------------------------
+setuptools
+wheel
 
-# Scientific computing dependencies (ordered for build)
+# -------------------------
+# Scientific computing
+# -------------------------
 numpy==1.24.3
 scipy>=1.9.0
 pandas==1.5.3
 
-# Image processing and ML dependencies
+# -------------------------
+# Image processing (SERVER SAFE)
+# -------------------------
 pillow==10.0.1
-opencv-python-headless
+opencv-python-headless==4.8.1.78
 scikit-image==0.21.0
 
-# SORT tracking dependencies
+# -------------------------
+# Tracking
+# -------------------------
 filterpy==1.4.5
 lapx==0.5.5
 
-# Deep learning dependencies
+# -------------------------
+# Deep learning (CPU only – cloud safe)
+# -------------------------
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.0.1
 torchvision==0.15.2
 ultralytics==8.0.196
 
-# Web application dependencies
+# -------------------------
+# Web application
+# -------------------------
 flask==2.3.3
+werkzeug==2.3.7
+gunicorn==21.2.0
 requests==2.31.0
 python-Levenshtein==0.21.1
 openpyxl==3.1.2
 matplotlib==3.7.2
-werkzeug==2.3.7
-gunicorn==21.2.0
