@@ -10,7 +10,7 @@ pandas==1.5.3
 
 # Image processing and ML dependencies
 pillow==10.0.1
-opencv-python-headless==4.8.1.78
+opencv-python-headless
 scikit-image==0.21.0
 
 # SORT tracking dependencies
